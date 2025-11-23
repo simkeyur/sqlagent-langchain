@@ -1,0 +1,7 @@
+"""Requirements for the Flask Employee Query App."""
+
+flask==3.0.0
+langchain==0.1.0
+langchain-google-genai==0.0.14
+sqlalchemy==2.0.23
+python-dotenv==1.0.0
