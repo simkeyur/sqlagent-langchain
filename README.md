@@ -32,16 +32,20 @@ A powerful, intelligent natural language query interface for SQLite databases. A
 - **Find qualified candidates**: "Show me all employees with Machine Learning and advanced Python skills"
 - **Identify retention risks**: "Who are the most senior employees in each department?"
 - **Plan hiring**: "How many junior developers do we have compared to seniors?"
+- **Salary analysis**: "Show me all VPs and their salary ranges"
 
 ### Team Management  
 - **Build project teams**: "Find engineers with both Python and DevOps expertise hired in last 3 years"
 - **Skill gaps analysis**: "Which departments lack JavaScript developers?"
 - **Resource allocation**: "List all employees in Sales with Project Management skills"
+- **Org structure**: "Show me all managers in Engineering and their direct reports"
 
 ### Business Intelligence
 - **Departmental insights**: "Compare average salary and headcount across all departments"
 - **Skill inventory**: "What are the top 5 most common skills in Engineering?"
 - **Team composition**: "Show me the organizational structure - who reports to whom"
+- **Payroll analysis**: "What's the total salary spend by department and hierarchy level?"
+- **Career paths**: "Show me the manager hierarchy from CEO down to individual contributors in Sales"
 
 ## 📸 Screenshots
 
@@ -122,7 +126,8 @@ The agent uses context-aware rules to automatically include relevant fields:
 | Mentions DEPARTMENT | department_name | "Engineering team" → shows dept |
 | Mentions HIRE DATE/TIMING | hire_date | "Recent hires" → shows hire_date |
 | Mentions SALARY/COMPENSATION | salary | "Highest paid" → shows salary |
-| Mentions MANAGER/REPORTS | manager info | "Team leads" → shows manager |
+| Mentions MANAGER/REPORTS | manager info, hierarchy level | "Team leads" → shows manager & level |
+| Mentions ROLE/TITLE/LEVEL | level (CEO/VP/Director/Manager/IC) | "Senior roles" → shows hierarchy level |
 | Always Included | first_name, last_name | Core identity fields |
 
 ## 📊 Database Schema
@@ -132,9 +137,11 @@ Employees
 ├── id (PK)
 ├── first_name
 ├── last_name
+├── email (firstname.lastname@datamint.app)
+├── job_title (role-specific)
 ├── department_id (FK)
 ├── hire_date
-├── salary
+├── salary ($50K - $500K)
 ├── manager_id (FK, self-reference)
 └── created_at
 
@@ -158,13 +165,30 @@ Projects
 EmployeeProjects (M2M Junction)
 ├── employee_id (FK)
 └── project_id (FK)
+
+EmployeeHierarchy (Organizational Levels)
+├── employee_id (PK, FK)
+├── level (CEO/VP/Director/Manager/IC)
+└── manager_id (FK)
 ```
+
+**Organizational Structure:**
+- 1 CEO ($391K) - Chief Executive Officer
+- 4 VPs (~$249K avg) - VP roles per department
+- 4 Directors (~$180K avg) - Director roles per department
+- 15 Managers (~$123K avg) - Engineering, Sales, HR, Marketing managers
+- 983 Individual Contributors (~$85K avg) - Engineers, Sales, HR, Marketing staff
 
 **Sample Data:**
 - 1,007 employee records
 - 4 departments (HR, Engineering, Sales, Marketing)
 - 12 skills (Python, JavaScript, SQL, Java, C++, Project Management, etc.)
 - Complex relationships and realistic proficiency levels
+- **Organizational Hierarchy**: CEO → VP → Director → Manager → Individual Contributors
+- **Salary Data**: Realistic salary ranges by level ($50K - $500K)
+- **Job Titles**: Role-specific titles by level and department
+- **Email Addresses**: firstname.lastname@datamint.app
+- Total payroll: ~$88M across all departments
 
 ## 🚀 Quick Start
 
